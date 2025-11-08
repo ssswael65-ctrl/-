@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Surprise</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root { --deep: #a30052; }
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Aref Ruqaa','Tajawal',cursive;
+      min-height:auto;
+      background:linear-gradient(135deg,#ffd6e8,#ff9ac3);
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      opacity:0;
+      animation:fadeIn 1.2s forwards;
+    }
+
+    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
+
+    .big-bg-heart {
+      position:fixed;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%) rotate(-45deg);
+      width:200px; height:380px;
+      background:#ffb7d4;
+      opacity:0.12;
+      border-radius:40px;
+      filter:blur(1px);
+      z-index:0;
+    }
+    .big-bg-heart:before, .big-bg-heart:after {
+      content:"";
+      position:absolute;
+      width:420px; height:380px;
+      background:#ffb7d4;
+      border-radius:50%;
+    }
+    .big-bg-heart:before { top:-200px; left:0; }
+    .big-bg-heart:after { left:200px; top:0; }
+
+    .frame {
+      position:relative;
+      background:#fff;
+      padding:35px 30px;
+      width:min(850px,92vw);
+      border-radius:25px;
+      box-shadow:0 18px 40px rgba(0,0,0,.16);
+      border:12px solid transparent;
+      border-image-source:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='70' height='70' viewBox='0 0 60 60'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%23ff8db3'/><stop offset='100%' stop-color='%23ff3c85'/></linearGradient></defs><path d='M30 48 L13 31 a10 10 0 0 1 14 -14 L30 20 l3 -3 a10 10 0 0 1 14 14 Z' fill='url(%23g)'/></svg>");
+      border-image-slice:30;
+      border-image-repeat:round;
+      z-index:3;
+      opacity:0;
+      transform:translateY(30px);
+      animation:slideIn 1s ease forwards .4s;
+    }
+
+    @keyframes slideIn { to {opacity:1; transform:translateY(0);} }
+
+    .message {
+      font-size:clamp(22px,2.5vw,32px);
+      text-align:center;
+      color:#3b0030;
+      line-height:2;
+    }
+
+    .floating-heart {
+      position:fixed;
+      bottom:-20px;
+      color:#ff4d88;
+      font-size:28px;
+      opacity:.85;
+      animation:floatUp linear forwards;
+      pointer-events:none;
+    }
+
+    @keyframes floatUp {
+      0% { transform:translateY(0) scale(1); opacity:1; }
+      100% { transform:translateY(-120vh) scale(1.8); opacity:0; }
+    }
+
+    .player{
+      margin-top:25px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      gap:15px;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      width:58px; height:58px;
+      border:none; border-radius:50%;
+      background:linear-gradient(135deg,#ff8db3,#ff3c85);
+      display:grid; place-items:center;
+      color:#fff;
+      font-size:22px;
+      box-shadow:0 12px 22px rgba(255,60,133,.35);
+      cursor:pointer;
+      transition:.2s;
+    }
+    .btn:active{ transform:scale(.92); }
+
+    .bar{
+      width:min(540px,72vw);
+      height:12px;
+      background:#ffd3e3;
+      border-radius:999px;
+      overflow:hidden;
+      cursor:pointer;
+    }
+    .bar span{
+      display:block;
+      height:100%; width:0%;
+      background:linear-gradient(90deg,#ff3c85,#ff8db3);
+    }
+
+    .time{ color:var(--deep); font:500 14px 'Tajawal'; }
+
+    .footer-note{
+      margin-top:20px;
+      font-size:20px;
+      color:var(--deep);
+      text-align:center;
+      z-index:4;
+    }
+
+    /* قوالب الصور الجديدة */
+    .photos-section {
+      margin-top: 120px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 70px;
+    }
+
+    .photo-card {
+      width: 75%;
+      max-width: 480px;
+      padding: 18px;
+      background: #ffffffcc;
+      border-radius: 25px;
+      border: 4px solid #ff8abf;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      animation: fadePhoto 1.3s forwards;
+    }
+
+    .photo-card:nth-child(2) { animation-delay: 0.4s; }
+    .photo-card:nth-child(3) { animation-delay: 0.8s; }
+
+    .photo-img {
+      width: 100%;
+      border-radius: 18px;
+    }
+
+    @keyframes fadePhoto {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="big-bg-heart"></div>
+
+  <div class="frame">
+    <div class="message">
+      من أول لحظة شوفتك فيها وأنا حاسس إن الدنيا بقت أهدى وأجمل…<br>
+      طريقة كلامك، ضحكتك، حتى السكوت بتاعك… كله بيأثر فيا بطريقة عمري ما حسّيتها قبل كدا.<br>
+       يمكن مش بعرف أقول كل حاجة كول، بس والله يا حبيبه انت اغلي حد ف حياتي كلها ولو في كلام بيطلع مني مش بيبقا قصدي اني ازعلك او حاجه بس انت حياتي كلها ومش هقدر استغني عنك مهما حصل 💖💖.
+    </div>
+
+    <div class="player">
+      <button class="btn" id="toggle">▶</button>
+      <div class="bar" id="bar"><span id="fill"></span></div>
+      <div class="time"><span id="ct">0:00</span> / <span id="dt">0:00</span></div>
+    </div>
+
+    <audio id="audio" preload="auto" <autoplay>
+      <source src="I Wanna Be Yours.mp3" type="audio/mpeg" />
+    </audio>
+  </div>
+
+  <!-- الصور تحت البرواز -->
+  <div class="photos-section">
+    <div class="photo-card">
+      <img src="pic2.jpg" class="photo-img">
+    </div>
+    <div class="photo-card">
+      <img src="pic3.jpg" class="photo-img">
+    </div>
+  </div>
+
+  <p class="footer-note">ايه رأيك يا زنانه</p>
+
+  <script>
+    function makeHeart(){
+      const h = document.createElement("div");
+      h.className = "floating-heart";
+      h.textContent = "❤";
+      h.style.left = Math.random()*100 + "vw";
+      h.style.fontSize = (26 + Math.random()*16) + "px";
+      h.style.animationDuration = (6 + Math.random()*4) + "s";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),9000);
+    }
+    setInterval(makeHeart,450);
+
+    const a = document.getElementById("audio"),
+          btn = document.getElementById("toggle"),
+          bar = document.getElementById("bar"),
+          fill = document.getElementById("fill"),
+          ct = document.getElementById("ct"),
+          dt = document.getElementById("dt");
+
+    a.play().then(()=> btn.textContent="⏸").catch(()=>{});
+
+    a.addEventListener("loadedmetadata",()=> dt.textContent=format(a.duration));
+
+    a.addEventListener("timeupdate",()=>{
+      fill.style.width = (a.currentTime/a.duration)*100 + "%";
+      ct.textContent = format(a.currentTime);
+    });
+
+    btn.addEventListener("click",()=>{
+      if(a.paused){ a.play(); btn.textContent="⏸"; }
+      else{ a.pause(); btn.textContent="▶"; }
+    });
+
+    bar.addEventListener("click",e=>{
+      const r = bar.getBoundingClientRect();
+      const p = (e.clientX - r.left) / r.width;
+      a.currentTime = p * a.duration;
+    });
+
+    function format(s){
+      s = Math.floor(s);
+      const m = Math.floor(s / 60);
+      const ss = ("0" + (s % 60)).slice(-2);
+      return m + ":" + ss;
+    }
+  </script>
+</body>
+
+</html>
